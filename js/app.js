@@ -1,6 +1,5 @@
-//set browser size and format to that of a smartphone screen
-//check if browser has cookies stored
-//if so, load data into variables and continue
+
+
 //if no cookies stored then display start button
 // log start time into a variable
 //upon start load all game variables into local storage so
@@ -76,31 +75,38 @@ $(start);
 var ava = ava || {};
 
 //declaring the stat variables
-ava.foodAttr = 10;
-ava.loveAttr = 10;
-ava.exAttr = 10;
-ava.cleanAttr = 4;
-ava.asleepAttr = 0;
-ava.NewHatchTime = new Date();
-ava.hatchTime;
+var foodAttr;
+var exAttr;
+var cleanAttr;
+var asleepAttr;
+var hatchTime;
+var newHatchTime = new Date();
+
 //the decay ratios
 
 
 //clear local storage:
 // localStorage.startTime
 
-function start(){
-  // localStorage.startTime = undefined;
 
+
+
+function start(){
+  //check if browser has previous game stored
   existingGameCheck();
   function existingGameCheck(){
-    if (localStorage.oldGame === 1){
-      ava.startTime = localStorage.startTime;
-      ava.foodAttr = localStorage.foodAttr;
-      ava.loveAttr = localStorage.loveAttr;
-      ava.exAttr = localStorage.exAttr;
-      ava.cleanAttr = localStorage.cleanAttr;
-      ava.asleepAttr = localStorage.asleepAttr;
+    if (localStorage.oldGame == 1){
+//if so, load data into variables and continue
+      hatchTime = localStorage.hatchTime;
+      console.log(hatchTime);
+      foodAttr = localStorage.foodAttr;
+      console.log(foodAttr);
+      exAttr = localStorage.exAttr;
+      console.log(exAttr);
+      cleanAttr = localStorage.cleanAttr;
+      console.log(cleanAttr);
+      asleepAttr = localStorage.asleepAttr;
+      console.log(asleepAttr);
       var past = confirm('past avatar detected would you like to load?');
       if (past != true){
         newGame();
@@ -109,46 +115,101 @@ function start(){
     loadScreen();
   }
 
-
+//new game function
   function newGame(){
-    ava.HatchTime = ava.NewHatchTime;
-    ava.foodAttr = 10;
-    ava.loveAttr = 10;
-    ava.exAttr = 10;
-    ava.cleanAttr = 4;
-    ava.asleepAttr = 0;
-    $('.uiHatchtime').val(0);
-    $('.autoTime').html('auto time: '+ ava.hatchTime);
+//reset variables to full
+    resetAttr();
+//reset manual time counter
+    $('.manualAgeTime').val(0);
+//push hatchtime to screen
+    $('.hatchTime').html('hatch time: '+ hatchTime);
+//push age to screen
+    age();
+//load stats to screen
     loadScreen();
+//push new stats to localStorage
+    setAttrLoc();
+    localStorage.oldGame = 1;
+//start hatching function
+    // hatch();
+  }
+
+//hatching function
+//display incubating egg for X period before showing avatar
+
+
+//resets avatar attributes
+  function resetAttr(){
+    hatchTime = newHatchTime;
+    foodAttr = 10;
+    exAttr = 10;
+    cleanAttr = 4;
+    asleepAttr = 0;
+  }
+
+//sets avatar attributes to browser localStorage
+  function setAttrLoc(){
+    localStorage.hatchTime = hatchTime;
+    localStorage.foodAttr = foodAttr;
+    localStorage.exAttr = exAttr;
+    localStorage.cleanAttr = cleanAttr;
+    localStorage.asleepAttr = asleepAttr;
     localStorage.oldGame = 1;
   }
 
-
-  function loadScreen(){
-    // death();
-    $('.food').html('food: '+ava.foodAttr);
-    localStorage.foodAttr = ava.foodAttr;
-    // console.log(ava.foodAttr);
-    $('.love').html('love: ' + ava.loveAttr);
-    localStorage.loveAttr = ava.loveAttr;
-    // console.log(ava.loveAttr);
-    $('.exercise').html('exercise: ' + ava.exAttr);
-    localStorage.exAttr = ava.exAttr;
-    // console.log(ava.exAttr);
-    $('.clean').html('clean: ' + ava.cleanAttr);
-    localStorage.cleanAttr = ava.cleanAttr;
-    // console.log(ava.cleanAttr);
-    $('.asleep').html('asleep: ' + ava.asleepAttr);
-    localStorage.asleepAttr = ava.asleepAttr;
-    // console.log(ava.exAttr);
-    // $('.hatchTime').html('time since hatched: ' + ava.hatchTime);
-    // console.log(ava.hatchTime);
+  function age(){
+    $('.age').html('age: '+(Math.floor((Date.parse(new Date())-Date.parse(hatchTime))/1000/60))+' minutes');
   }
 
+//   function hatch(){
+//   while(parseInt((Date.parse(new Date())-Date.parse(hatchTime))/1000/60)<5){
+//     // $('.avatar').attr('src','gifs/chick/eggincubating2.gif');
+//     $('.textAvatar').html('egg incubating');
+//   }
+// }
+  function loadScreen(){
+    // death();
+    $('.food').html('food: '+foodAttr);
+    $('.exercise').html('exercise: ' + exAttr);
+    $('.clean').html('clean: ' + cleanAttr);
+    $('.asleep').html('asleep: ' + asleepAttr);
+    setAttrLoc();
+    window.setInterval(age, 500);
+    window.setInterval(death, 10000);
+    animation();
+    window.setInterval(animation, 10000);
+    window.setInterval(stats, 10000);
+  }
+
+function stats(){
+
+}
+
+  function animation(){
+    var body = $('.screen');
+    var avatar = [
+      './gifs/chick/idle3.gif',
+      './gifs/chick/idle4.gif'];
+    var current = 0;
+
+    function nextBackground() {
+      body.html(
+        '<img class="avatar" src="'+avatar[current = ++current % avatar.length]+'" alt="" height = "200" width = "200">');
+      setTimeout(nextBackground, 10000);
+    }
+    setTimeout(nextBackground, 10000);
+    body.html(
+        '<img class="avatar" src="'+avatar[current = ++current % avatar.length]+'" alt="" height = "200" width = "200">');
+  }
+
+
+  // images();
   $('.uiHatchtime').on('input', function(){
     attrDecay();
   });
 
+
+//button event listeners
   $('button').on('click', function(e){
     var buttonPress = e.target.innerHTML;
     switch(buttonPress) {
@@ -192,25 +253,23 @@ function start(){
     console.log(ava.foodAttr);
     loadScreen();
   }
-  //
-  // function death(){
-  //   if ((parseInt(ava.foodAttr) || parseInt(ava.loveAttr) || parseInt(ava.exAttr)) =< 0){
-  //     $('.dead').html('oh no, brian is dead!');
-  //   }
-  // }
+
+  function death(){
+    if ((parseInt(exAttr) || parseInt(foodAttr))===0){
+      $('.dead').html('oh no, brian is dead!');
+    }
+  }
 
   function uiFood(){
-    if(ava.foodAttr!==10){
-      ava.foodAttr++;
-      ava.lastInt = new Date();
+    if(foodAttr!==10){
+      foodAttr++;
     }
-    console.log(ava.foodAttr);
+    console.log(foodAttr);
     loadScreen();
   }
   function uiExercise(){
     if(ava.exAttr!==10){
       ava.exAttr++;
-      ava.lastInt = new Date();
     }
     console.log(ava.exAttr);
     loadScreen();
@@ -218,22 +277,12 @@ function start(){
   function uiBath(){
     if(ava.cleanArrt!==4){
       ava.exBath=4;
-      ava.lastInt = new Date();
     }
     console.log(ava.bathAttr);
     loadScreen();
   }
-  function uiLove(){
-    if(ava.loveAttr!==10){
-      ava.exLove++;
-      ava.lastInt = new Date();
-    }
-    console.log(ava.loveAttr);
-    loadScreen();
-  }
   function uiSleep(){
     console.log(ava.sleepAttr);
-    ava.lastInt = new Date();
   }
 
 }

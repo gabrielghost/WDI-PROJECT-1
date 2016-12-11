@@ -2,6 +2,12 @@
 <html>
   <head>
     <meta charset="utf-8">
+    <script type="text/javascript" src="https://cdn.emailjs.com/dist/email.min.js"></script>
+<script type="text/javascript">
+   (function(){
+      emailjs.init("user_6M7eRia2h6UofuQucaITr");
+   })();
+</script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <link rel="stylesheet" href="css/style.css">
     <script type="text/javascript"></script>
@@ -27,15 +33,19 @@
 <button type="button" name="button">food</button>
 <button type="button" name="button">exercise</button>
 <button type="button" name="button">bath</button>
-<button type="button" name="button">love</button>
 <button type="button" name="button">sleep</button>
-</div>
+
 <div class="start">
 <button type="button" name="button">start</button>
 <button type="button" name="button">reset</button>
-
-
 <div>
+  <div class="email">
+    <input type="email" name="email">
+    <textarea id = "myTextArea"
+                  rows = "3"
+                  cols = "80">Your text here</textarea>
+  </div>
+  </div>
   <audio id="player" src="audio/brian.mp3" type="audio/mpeg"></audio>
     <button onclick="document.getElementById('player').play()">Play</button>
     <button onclick="document.getElementById('player').pause()">Pause</button>
@@ -50,7 +60,7 @@
 <div class="clean"></div>
 <div class="asleep"></div>
 <div class="dead"></div>
-<div class="manualAge">manual age:<input class="manualAgeTime" type="number" value="1" min="1" max="999" /></div>
+<div class="manualAge">manual age:<input class="manualAgeTime" type="number" value="1" min="1" max="9999" /></div>
 <div class="hatchTime">hatch time:</div>
 <div class="age">age time:</div>
 </div>

@@ -82,6 +82,9 @@ var asleepAttr;
 var hatchTime;
 var newHatchTime = new Date();
 
+var uiFood = 0;
+var uiEx = 0;
+
 //the decay ratios
 
 
@@ -92,10 +95,16 @@ var newHatchTime = new Date();
 
 
 function start(){
+
+  window.setInterval(age, 1200);
+  window.setInterval(death, 120000);
+  window.setInterval(animation, 20000);
+  window.setInterval(attrDecay, 60000);
+
   //check if browser has previous game stored
   existingGameCheck();
   function existingGameCheck(){
-    if (localStorage.oldGame == 1){
+    if (parseInt(localStorage.oldGame) === 1){
 //if so, load data into variables and continue
       hatchTime = localStorage.hatchTime;
       console.log(hatchTime);
@@ -108,7 +117,7 @@ function start(){
       asleepAttr = localStorage.asleepAttr;
       console.log(asleepAttr);
       var past = confirm('past avatar detected would you like to load?');
-      if (past != true){
+      if (past !== true){
         newGame();
       }
     }
@@ -174,16 +183,10 @@ function start(){
     $('.clean').html('clean: ' + cleanAttr);
     $('.asleep').html('asleep: ' + asleepAttr);
     setAttrLoc();
-    window.setInterval(age, 500);
-    window.setInterval(death, 10000);
+
     animation();
-    window.setInterval(animation, 10000);
-    window.setInterval(stats, 10000);
+
   }
-
-function stats(){
-
-}
 
   function animation(){
     var body = $('.screen');
@@ -209,6 +212,7 @@ function stats(){
   });
 
 
+
 //button event listeners
   $('button').on('click', function(e){
     var buttonPress = e.target.innerHTML;
@@ -224,10 +228,6 @@ function stats(){
       case 'bath':
         console.log('bath button');
         uiBath();
-        break;
-      case 'love':
-        console.log('love button');
-        uiLove();
         break;
       case 'sleep':
         console.log('sleep button');
@@ -246,11 +246,12 @@ function stats(){
   });
 
   function attrDecay(){
-    ava.foodFloor = Math.floor(parseInt($('.uiHatchtime').val()/60));
-    ava.foodAttr = 10 - ava.foodFloor;
-    ava.loveAttr = 10 - ava.foodFloor;
-    ava.exAttr = 10 - ava.foodFloor;
-    console.log(ava.foodAttr);
+    var foodFloor = Math.floor(parseInt(Math.floor((Date.parse(new Date())-Date.parse(hatchTime))/1000/60)/60));
+    foodAttr = 10 - foodFloor;
+    exAttr = 10 - foodFloor;
+    // foodAttr = (10+(parseInt(uiFood)) - foodFloor;
+    // exAttr = (10+(parseInt(uiEx))) - foodFloor;
+    console.log(foodAttr);
     loadScreen();
   }
 
@@ -268,15 +269,15 @@ function stats(){
     loadScreen();
   }
   function uiExercise(){
-    if(ava.exAttr!==10){
-      ava.exAttr++;
+    if(exAttr!==10){
+      exAttr++;
     }
     console.log(ava.exAttr);
     loadScreen();
   }
   function uiBath(){
-    if(ava.cleanArrt!==4){
-      ava.exBath=4;
+    if(cleanAtrr!==4){
+      cleanAtrr=4;
     }
     console.log(ava.bathAttr);
     loadScreen();

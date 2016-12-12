@@ -1,35 +1,42 @@
-body{
+body {
+  text-align: center;
+  font-family: 'Merriweather', serif;
+  color: black;
+  background: yellow;
+}
+
+
+
+/*body{
   background-color: #fff8ef;
 }
+
 .screen{
   position: relative;
   height: 256px;
   width: 256px;
   background-color: white;
   margin: 0 auto;
-   text-align: center;
-   /*display: table-cell;*/
-   vertical-align: middle;
-   border: 1px solid black;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid black;
 }
+
 .data{
   display: inline-block;
   float: left;
   position: relative;
   top: -300px;
-
 }
+
 header{
   height: 50px;
 }
-.avatar{
-  /*text-align: center;
-  margin: 0 auto;
-  vertical-align: middle;*/
-}
+
 .email{
   padding: 10px;
 }
+
 .casing{
   position: relative;
   height: 440px;
@@ -39,22 +46,11 @@ header{
   background-size:100%;
   margin: 0 auto;
   padding: 17px;
-   text-align: center;
-   /*display: table-cell;*/
-   vertical-align: middle;
-   /*border: 1px solid black;*/
-   border-radius: 10px;
+  text-align: center;
+  vertical-align: middle;
+  border-radius: 10px;
 }
+
 .controls{
   padding: 20px 0;
-}
-/*.hatchTime{
-  position: absolute;
-  bottom: 0;
-  display: inline-block;
-}
-.autoTime{
-  position: absolute;
-  bottom: 20px;
-  display: inline-block;
 }*/

@@ -16,8 +16,60 @@ Brian.start = function start() {
         console.log('clean');
         Brian.wash();
         break;
+      case 'restart':
+        var restartAlert = confirm('are you sure you want to abort your wonderful chick and just like a phoenix spawn another?');
+        if (restartAlert === true){
+          console.log('restart');
+          Brian.newGame();
+        }
     }
   });
+
+  this.$loveForm = $('.loveForm');
+
+  this.$loveForm.on('submit',function(e){
+    e.preventDefault();
+    this.$loveFormEntry = {
+      created_at: new Date(),
+      text: $('textarea').val()
+    };
+    if(this.$loveFormEntry.text.length>400){
+      this.$ol = $('.comments');
+      this.$loveFormEntry = '<li>'+new Date()+'<br>'+$('textarea').val()+'<li>';
+      Brian.luv();
+      this.$ol.prepend(this.$loveFormEntry);
+      $('textarea').val('');
+    }
+  });
+
+  $('#loveChat').on('keyup', function(){
+    // WE CHECK THE LENGTH OF THE TEXT AND SUBTRACT IT FROM 140 TO GET THE NUMBER OF CHARACTERS LEFT
+    $('.characterCounter').html($('textarea').val().length-400);
+    // WE CONDITIONALLY UPDATE THE COLOR OF THE TEXT TO REFLECT WHETHER IT IS OK TO POST OF NOT (RED IF YOU HAVE GONE OVER THE LIMIT)
+    if ($('textarea').val().length < 400){
+      $('.characterCounter').css('color', '#cc8787');
+    } else {
+      $('.characterCounter').css('color', '#8899a6');
+    }
+  });
+
+
+//hatching function
+//display no attributes for length of time hatching
+// display incubating egg gif on screen
+// have incubation last between 1-15 minutes (seconds)
+
+  Brian.hatch = function() {
+
+    if (parseInt(this.ageInSeconds())<(100)){
+      this.$screen = $('.screen');
+      this.$screen.html('<img class="avatar" src="./gifs/chick/eggincubating2.gif" alt="" height = "256" width = "256">');
+    } else {
+      this.$screen = $('.screen');
+      this.$screen.html('<img class="avatar" src="./gifs/chick/idle3.gif" alt="" height = "200" width = "200">');
+    }
+  };
+
 
   // var $loveForm = $('.loveForm');
   // var $textArea = $(':textArea');
@@ -33,21 +85,25 @@ Brian.start = function start() {
   } else {
     console.log('Hatching new Brian');
     Brian.newGame();
-    this.interval  = 1000;
-    this.food      = 1000;
-    this.exercise  = 1000;
-    this.love      = 1000;
-    this.clean     = 40;
-    this.sleep     = 0;
-    this.hatchTime = new Date().getTime();
-    this.saveLastSeen();
-    this.save();
-    this.deathCheck();
   }
   // Show initial age
   this.displayAge();
 
   setInterval(this.live.bind(this), this.interval);
+};
+
+Brian.newGame = function(){
+  this.interval  = 1000;
+  this.food      = 1000;
+  this.exercise  = 1000;
+  this.love      = 1000;
+  this.clean     = 40;
+  this.sleep     = 0;
+  this.hatchTime = new Date().getTime();
+  this.saveLastSeen();
+  this.save();
+  Brian.valuePush();
+  Brian.hatch();
 };
 
 Brian.feed = function(){
@@ -66,24 +122,26 @@ Brian.feed = function(){
 };
 
 Brian.deathCheck = function(){
-  if ((this.love||this.food||this.exercise)<50){
-    Brian.deathFunction();
-  } if (this.clean < 10){
-    Brian.deathFunction();
+  if (((parseInt(this.food)||parseInt(this.clean)||parseInt(this.exercise))<50)||(parseInt(this.clean) < 10)){
+    console.log('deathCheck qualified1');
+    if (Math.random()>0.98){
+      var deathAudio = new Audio('./audio/8-bit Chopin Funeral March.mp3');
+      deathAudio.play();
+      var $screen = $('.screen');
+      $screen.html('<img class="avatar" src="./gifs/chick_death.gif" alt="" height = "200" width = "200">');
+      var past = confirm('brian has died would you like to restart?');
+      if (past !== true){
+        deathAudio.stop();
+      }
+      if (past === true){
+        deathAudio.stop();
+        Brian.newGame();
+
+      }
+    }
   }
 };
 
-Brian.deathFunction = function(){
-  if (Math.random()>0.98){
-    var past = confirm('past avatar detected would you like to load?');
-    if (past !== true){
-      newGame();
-    }
-    if (past === true){
-      alert('game over');
-    }
-  }
-};
 
 Brian.train = function(){
 
@@ -115,18 +173,13 @@ Brian.wash = function(){
   Brian.valuePush();
 };
 
-Brian.love = function(){
-  this.love=(this.love+100);
+Brian.luv = function(){
+  this.love=(this.love+300);
   console.log(this.love);
   if (this.love >= 1000) {
     this.clean=1000;
   }
-  var $clean = $('.clean');
-  $clean.html(this.clean);
-  var $food = $('.food');
-  $food.html(this.food);
-  var $exercise = $('.exercise');
-  $exercise.html(this.exercise);
+  Brian.valuePush();
 };
 
 Brian.valuePush = function valuePush(){
@@ -147,6 +200,8 @@ Brian.live = function live() {
   this.exerciseDecay();
   this.cleanDecay();
   this.loveDecay();
+  this.deathCheck();
+  this.hatch();
   // Save every interval...
   this.save();
 };

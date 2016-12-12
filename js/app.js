@@ -80,6 +80,13 @@ var exAttr;
 var cleanAttr;
 var asleepAttr;
 var hatchTime;
+
+//ui count
+var uiFoodAttr;
+var uiexAttr;
+var cleanAttr;
+var asleepAttr;
+var hatchTime;
 var newHatchTime = new Date();
 
 var uiFood = 0;
@@ -100,6 +107,7 @@ function start(){
   window.setInterval(death, 120000);
   window.setInterval(animation, 20000);
   window.setInterval(attrDecay, 60000);
+  window.setInterval(setAttrLoc, 60000);
 
   //check if browser has previous game stored
   existingGameCheck();
@@ -177,7 +185,6 @@ function start(){
 //   }
 // }
   function loadScreen(){
-    // death();
     $('.food').html('food: '+foodAttr);
     $('.exercise').html('exercise: ' + exAttr);
     $('.clean').html('clean: ' + cleanAttr);
@@ -232,6 +239,13 @@ function start(){
       case 'sleep':
         console.log('sleep button');
         uiSleep();
+        break;
+      case 'submit':
+        console.log('submit');
+        e.preventDefault();
+        break;
+      case 'mini':
+      window.open('index.html','window','toolbar=no, menubar=no, titlebar=no, location=no, resizable=yes, width=350, height=450');
         break;
       case 'reset':
         console.log('reset button');

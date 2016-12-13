@@ -131,7 +131,7 @@ Brian.deathCheck = function(){
       $screen.html('<img class="avatar" src="./gifs/chick_death.gif" alt="" height = "200" width = "200">');
       var past = confirm('brian has died would you like to restart?');
       if (past !== true){
-
+        Brian.newGame();
       }
       if (past === true){
         Brian.newGame();
@@ -170,6 +170,7 @@ Brian.wash = function(){
     console.log(this.clean);
   }
   Brian.valuePush();
+  Brian.invisible();
 };
 
 Brian.luv = function(){
@@ -198,12 +199,35 @@ Brian.live = function live() {
   this.foodDecay();
   this.exerciseDecay();
   this.cleanDecay();
-  this.cleanMess()
+  this.cleanMess();
   this.loveDecay();
   this.deathCheck();
   this.hatch();
   // Save every interval...
   this.save();
+};
+
+Brian.cleanMess = function cleanMess() {
+  if (parseInt(30)>parseInt(this.clean)>parseInt(20)){
+    Brian.visible(1);
+  }else if (parseInt(20)>parseInt(this.clean)>parseInt(10)){
+    Brian.visible(2);
+  } else if (parseInt(this.clean)<parseInt(10)){
+    Brian.visible(3);
+  }
+};
+
+Brian.visible = function visible(p) {
+  for (var x = 1; x < p; x++) {
+    $('#poo'+x).css('visibility', 'visible');
+  }
+
+};
+Brian.invisible = function invisible() {
+  for (var x = 1; x < 3; x++) {
+    return $('#poo'+x).css('visibility', 'invisible');
+  }
+
 };
 
 Brian.saveLastSeen = function saveLastSeen() {
@@ -257,19 +281,6 @@ Brian.cleanDecay = function() {
   var $clean = $('.clean');
   $clean.html(this.clean);
   Brian.cleanMess();
-};
-
-Brian.cleanMess = function() {
-  if (this.clean<30){
-    $('#poo3').style.display = 'none';
-    $('#poo2').style.display = 'none';
-  } else if (this.clean<20){
-
-  }else if (this.clean<10){
-
-  }else{
-
-  }
 };
 
 Brian.ageInSeconds = function ageInSeconds(){

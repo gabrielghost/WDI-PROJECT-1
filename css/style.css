@@ -5,24 +5,54 @@ body {
   background: #fff8ef;
 }
 
-.comments ul li{
+.comments{
   list-style: none;
   width: 400px;
+  text-align: justify;
+  margin: 0 auto;
 }
 
 body{
   background-color: #fff8ef;
 }
 
+#poo1{
+  position: relative;
+  top: -100px;
+  left: -20px;
+  z-index: 1;
+  visibility: hidden;
+}
+#poo2{
+  position: relative;
+  top: -80px;
+  left: -10px;
+  z-index: 1;
+  visibility: hidden;
+}
+#poo3{
+  position: relative;
+  top: -90px;
+  left: 10px;
+  z-index: 1;
+  visibility: hidden;
+}
+.avatar{
+    z-index: 2;
+}
+
 .screen{
   position: relative;
   height: 256px;
   width: 256px;
-  background-color: white;
+  background-color: none;
+  background-image: url('../images/cartoon_natural_landscape_vector_278572.jpg');
+  background-size: cover;
   margin: 0 auto;
   text-align: center;
   vertical-align: middle;
   border: 1px solid black;
+
 }
 /*
 .data{

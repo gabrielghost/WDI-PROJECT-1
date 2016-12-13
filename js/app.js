@@ -125,16 +125,15 @@ Brian.deathCheck = function(){
   if (((parseInt(this.food)||parseInt(this.clean)||parseInt(this.exercise))<50)||(parseInt(this.clean) < 10)){
     console.log('deathCheck qualified1');
     if (Math.random()>0.98){
-      var deathAudio = new Audio('./audio/8-bit Chopin Funeral March.mp3');
-      deathAudio.play();
+      // var deathAudio = new Audio('./audio/8-bit Chopin Funeral March.mp3');
+      // deathAudio.play();
       var $screen = $('.screen');
       $screen.html('<img class="avatar" src="./gifs/chick_death.gif" alt="" height = "200" width = "200">');
       var past = confirm('brian has died would you like to restart?');
       if (past !== true){
-        deathAudio.stop();
+
       }
       if (past === true){
-        deathAudio.stop();
         Brian.newGame();
 
       }
@@ -177,7 +176,7 @@ Brian.luv = function(){
   this.love=(this.love+300);
   console.log(this.love);
   if (this.love >= 1000) {
-    this.clean=1000;
+    this.clean=40;
   }
   Brian.valuePush();
 };
@@ -199,6 +198,7 @@ Brian.live = function live() {
   this.foodDecay();
   this.exerciseDecay();
   this.cleanDecay();
+  this.cleanMess()
   this.loveDecay();
   this.deathCheck();
   this.hatch();
@@ -246,7 +246,7 @@ Brian.exerciseDecay = function() {
 };
 
 Brian.cleanDecay = function() {
-  // Every second, there is a 1 in 30 chance for Brian to get hungry
+  // Every second, there is a 1 in 5 chance for Brian to get messy
   var rateOfMess = 5;
   var exerciseChance = Math.floor(Math.random() * rateOfMess);
   if (exerciseChance === 1) {
@@ -256,6 +256,20 @@ Brian.cleanDecay = function() {
   }
   var $clean = $('.clean');
   $clean.html(this.clean);
+  Brian.cleanMess();
+};
+
+Brian.cleanMess = function() {
+  if (this.clean<30){
+    $('#poo3').style.display = 'none';
+    $('#poo2').style.display = 'none';
+  } else if (this.clean<20){
+
+  }else if (this.clean<10){
+
+  }else{
+
+  }
 };
 
 Brian.ageInSeconds = function ageInSeconds(){

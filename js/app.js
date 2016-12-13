@@ -62,13 +62,14 @@ Brian.start = function start() {
   Brian.hatch = function() {
 
     if (parseInt(this.conceptionTimeInSeconds())>(5)){
-      console.log('this.conceptionTimeInSeconds()');
+      console.log(this.conceptionTimeInSeconds());
       this.$screen = $('.screen');
-      this.$avatar = $('.avatar');
+
       Brian.hidePoo();
       this.$screen.css('background-image', '../images/cartoon_natural_landscape_vector_278572.jpg');
+      this.$screen.removeAttr('background-image', '../gifs/chick/eggincubating2.gif');
     } else {
-      this.$incubating.attr('');
+      this.$avatar = $('.avatar');
       this.$avatar.attr('src','./gifs/chick/idle3.gif');
     }
   };
@@ -212,7 +213,7 @@ Brian.live = function live() {
   this.loveDecay();
   this.deathCheck();
   this.hatch();
-  // this.foodStat();
+  this.foodStat();
   // Save every interval...
   this.save();
 };
@@ -229,23 +230,25 @@ Brian.cleanMess = function cleanMess() {
 
 Brian.foodStat = function foodStat() {
   if (parseInt(1000)>=parseInt(this.food) && parseInt(this.food)>=parseInt(800)){
-    console.log('foodstat working');
+    console.log('foodstat 5 working');
     Brian.showFoodStat(5);
   }else if (parseInt(800)>parseInt(this.food) && parseInt(this.food)>=parseInt(600)){
+    console.log('foodstat 4 working');
     Brian.showFoodStat(4);
   }else if (parseInt(600)>parseInt(this.food) && parseInt(this.food)>=parseInt(400)){
+    console.log('foodstat 3 working');
     Brian.showFoodStat(3);
   }else if (parseInt(400)>parseInt(this.food) && parseInt(this.food)>=parseInt(200)){
+    console.log('foodstat 2 working');
     Brian.showFoodStat(2);
   }else if (parseInt(200)>parseInt(this.food) && parseInt(this.food)>=parseInt(0)){
+    console.log('foodstat 1 working');
     Brian.showFoodStat(1);
   }
 };
 
 Brian.showFoodStat = function showFoodStat(f) {
-  for (var x = 0; x < f; x++) {
-    $('#foodstat'+(x+1)).css('visibility', 'visible');
-  }
+  $('#foodstat').attr('src','./images/foodstat/'+f+'apples.png');
 };
 
 Brian.showPoo = function showPoo(p) {

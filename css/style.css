@@ -56,7 +56,7 @@ user-select: none;
   display: inline;
   size: 170%;
 }
-#exercisestat{
+#exerciseStat{
   position: relative;
   top: -55px;
   left: 60px;
@@ -114,29 +114,64 @@ body{
 
 #poo1{
   position: relative;
-  top: -250px;
-  left: 10px;
+  top: -1px;
+  left: 29px;
   z-index: 1;
   visibility: hidden;
   display: inline;
 }
 #poo2{
   position: relative;
-  top: -220px;
-  left: 25px;
+  top: 19px;
+  left: 48px;
   z-index: 1;
   visibility: hidden;
     display: inline;
 }
 #poo3{
   position: relative;
-  top: -220px;
-  left: 50px;
+  top: 20px;
+  left: 73px;
   z-index: 1;
   visibility: hidden;
     display: inline;
 }
+.buttonInputs{
+  margin: 10px 0;
+}
+.screen.living p{
+  padding: 5px;
+  margin: 0 auto;
+  text-align: left;
+}
+input[type=submit] {
+  position:relative !important;
+  left:-50px !important;
+  top:0px !important;
+  }
+.characterCounter{
+  margin: 0 60px;
+  text-align: center;
+}
+textarea{
+  border-radius: 10px;
+}
 .avatar{
+  position: relative;
+  top: 215px;
+  left: 20px;
+}
+
+.living {
+  background-image: url('../images/cartoon_natural_landscape_vector_278572.jpg');
+}
+
+.death {
+  background-image: url('../gifs/chick_death.gif');
+}
+
+.start {
+  background-image: url('../gifs/chick/eggincubating2.gif');
 }
 
 .screen{
@@ -146,7 +181,7 @@ body{
   width: 256px;
   background-color: none;
   /*background-image: url('../images/cartoon_natural_landscape_vector_278572.jpg');*/
-  background-image: url('../gifs/chick/eggincubating2.gif');
+  /*background-image: url('../gifs/chick/eggincubating2.gif');*/
   background-size: 256px 256px;
   margin: 0 auto;
   text-align: center;

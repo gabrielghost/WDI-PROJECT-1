@@ -23,43 +23,33 @@
 
 
     <div class="bevvel">
-    <div class="screen">
+    <div class="screen start">
       <div class="avatars">
         <img class="avatar" src="" alt="" height="200">
         <!-- <img class="incubating" src="" alt="" width="256" height="256"> -->
       </div>
+      <p>Age: <time>0</time> seconds<p>
       <img id="poo1" src="./images/poo.png" alt="" height="50">
       <img id="poo2" src="./images/poo.png" alt="" height="50">
       <img id="poo3" src="./images/poo.png" alt="" height="50">
       <img id="foodstat" src="./images/foodstat/5apples.png" alt="" height="200">
-      <img id="exercisestat" src="./images/dumbell/dumbell5.png" alt="" height="140">
+      <img id="exerciseStat" src="./images/exerciseStat/dumbell5.png" alt="" height="140">
     </div>
   </div>
     </div>
-    <button id="buttonFeed" type="button" name="button">feed</button>
-        <button id="buttonExercise" type="button" name="button">exercise</button>
-            <button id="buttonClean" type="button" name="button">clean</button>
-    <h2>Age: <time>0</time> seconds</h2>
-    <h2>Food: <span class="food">0</span></h2>
-
-
-
-    <h2>Exercise: <span class="exercise">0</span></h2>
-
-
-
-    <h2>Clean: <span class="clean">0</span></h2>
-
-
-
-    <h2>Love: <span class="love">0</span></h2>
-  <form class="loveForm">
-    <textarea id="loveChat" rows="4" cols="50"></textarea>
-    <div class="">
-      <input type="submit" value="love">
-      <span class="characterCounter">0</span>
+    <div class="buttonInputs">
+      <button id="buttonFeed" type="button" name="button">feed</button>
+      <button id="buttonExercise" type="button" name="button">exercise</button>
+      <button id="buttonClean" type="button" name="button">clean</button>
     </div>
-  </form>
+    <form class="loveForm">
+      <textarea placeholder="Type 140 characters in here to show brian some love. Offload your development stress!" id="loveChat" rows="4" cols="50"></textarea><input type="submit" value="love">
+      <span class="characterCounter">-140</span>
+    </form>
+    <h2>Food: <span class="food">0</span></h2>
+    <h2>Exercise: <span class="exercise">0</span></h2>
+    <h2>Clean: <span class="clean">0</span></h2>
+    <h2>Love: <span class="love">0</span></h2>
     <button type="button" name="button">restart</button>
 
     <audio id="player" src="audio/brian.mp3" type="audio/mpeg"></audio>

@@ -7,9 +7,11 @@ Brian.start = function start() {
       case 'feed':
         console.log('feed');
         Brian.feed();
+        Brian.foodStat();
         break;
       case 'exercise':
         Brian.train();
+        Brian.exerciseStat();
         console.log('exercise');
         break;
       case 'clean':
@@ -33,7 +35,7 @@ Brian.start = function start() {
       created_at: new Date(),
       text: $('textarea').val()
     };
-    if(this.$loveFormEntry.text.length>400){
+    if(this.$loveFormEntry.text.length>140){
       this.$ol = $('.comments');
       this.$loveFormEntry = '<li>'+new Date()+'<br>'+$('textarea').val()+'<li>';
       Brian.luv();
@@ -44,9 +46,9 @@ Brian.start = function start() {
 
   $('#loveChat').on('keyup', function(){
     // WE CHECK THE LENGTH OF THE TEXT AND SUBTRACT IT FROM 140 TO GET THE NUMBER OF CHARACTERS LEFT
-    $('.characterCounter').html($('textarea').val().length-400);
+    $('.characterCounter').html($('textarea').val().length-140);
     // WE CONDITIONALLY UPDATE THE COLOR OF THE TEXT TO REFLECT WHETHER IT IS OK TO POST OF NOT (RED IF YOU HAVE GONE OVER THE LIMIT)
-    if ($('textarea').val().length < 400){
+    if ($('textarea').val().length < 140){
       $('.characterCounter').css('color', '#cc8787');
     } else {
       $('.characterCounter').css('color', '#8899a6');
@@ -54,21 +56,19 @@ Brian.start = function start() {
   });
 
 
-//hatching function
-//display no attributes for length of time hatching
-// display incubating egg gif on screen
-// have incubation last between 1-15 minutes (seconds)
+  //hatching function
+  //display no attributes for length of time hatching
+  // display incubating egg gif on screen
+  // have incubation last between 1-15 minutes (seconds)
 
   Brian.hatch = function() {
 
     if (parseInt(this.conceptionTimeInSeconds())>(5)){
       console.log(this.conceptionTimeInSeconds());
       this.$screen = $('.screen');
-
-      Brian.hidePoo();
-      this.$screen.css('background-image', '../images/cartoon_natural_landscape_vector_278572.jpg');
-      this.$screen.removeAttr('background-image', '../gifs/chick/eggincubating2.gif');
-    } else {
+      this.$screen.removeClass('start');
+      // this.$screen.css('background-image', '../images/cartoon_natural_landscape_vector_278572.jpg');
+      this.$screen.addClass('living');
       this.$avatar = $('.avatar');
       this.$avatar.attr('src','./gifs/chick/idle3.gif');
     }
@@ -92,10 +92,15 @@ Brian.start = function start() {
   // Show initial age
   this.displayAge();
 
-  setInterval(this.live.bind(this), this.interval);
+  Brian.heartBeat = setInterval(this.live.bind(this), this.interval);
 };
 
 Brian.newGame = function(){
+  Brian.hidePoo();
+  this.$screen.removeClass('living');
+  this.$screen.removeClass('death');
+  this.$screen.addClass('start');
+  this.$avatar.attr('src','');
   this.newAttributes();
   this.saveLastSeen();
   this.save();
@@ -132,21 +137,26 @@ Brian.feed = function(){
 };
 
 Brian.deathCheck = function(){
-  if (((parseInt(this.food)||parseInt(this.clean)||parseInt(this.exercise))<50)||(parseInt(this.clean) < 10)){
+  if (((parseInt(this.food)||parseInt(this.love)||parseInt(this.exercise))<50)||(parseInt(this.clean) < 10)){
     console.log('deathCheck qualified1');
     if (Math.random()>0.98){
-      // var deathAudio = new Audio('./audio/8-bit Chopin Funeral March.mp3');
-      // deathAudio.play();
-      var $screen = $('.screen');
-      $screen.html('<img class="avatar" src="./gifs/chick_death.gif" alt="" height = "200" width = "200">');
+      var deathAudio = new Audio('./audio/8-bit Chopin Funeral March.mp3');
+      deathAudio.play();
+      // var $screen = $('.screen');
+      // $screen.html('<img class="avatar" src="./gifs/chick_death.gif" alt="" height = "200" width = "200">');
+      $('.screen, .living').toggleClass('living').toggleClass('death');
       var past = confirm('brian has died would you like to restart?');
-      if (past !== true){
-        Brian.newGame();
-      }
-      if (past === true){
-        Brian.newGame();
+      clearInterval(Brian.heartBeat);
+      setTimeout(function() {
+        if (past !== true){
+          Brian.newGame();
+        }
+        if (past === true){
+          Brian.newGame();
+        }
+        deathAudio.pause();
+      }, 1000);
 
-      }
     }
   }
 };
@@ -214,6 +224,7 @@ Brian.live = function live() {
   this.deathCheck();
   this.hatch();
   this.foodStat();
+  this.exerciseStat();
   // Save every interval...
   this.save();
 };
@@ -226,6 +237,18 @@ Brian.cleanMess = function cleanMess() {
   } else if (parseInt(this.clean)<parseInt(10)){
     Brian.showPoo(3);
   }
+};
+
+Brian.showPoo = function showPoo(p) {
+  for (var x = 0; x < p; x++) {
+    $('#poo'+(x+1)).css('visibility', 'visible');
+  }
+};
+
+Brian.hidePoo = function hidePoo() {
+  $('#poo1').css('visibility', 'hidden');
+  $('#poo2').css('visibility', 'hidden');
+  $('#poo3').css('visibility', 'hidden');
 };
 
 Brian.foodStat = function foodStat() {
@@ -250,21 +273,28 @@ Brian.foodStat = function foodStat() {
 Brian.showFoodStat = function showFoodStat(f) {
   $('#foodstat').attr('src','./images/foodstat/'+f+'apples.png');
 };
-
-Brian.showPoo = function showPoo(p) {
-  for (var x = 0; x < p; x++) {
-    $('#poo'+(x+1)).css('visibility', 'visible');
+Brian.exerciseStat = function exerciseStat() {
+  if (parseInt(1000)>=parseInt(this.exercise) && parseInt(this.exercise)>=parseInt(800)){
+    console.log('exerciseStat 5 working');
+    Brian.showexerciseStat(5);
+  }else if (parseInt(800)>parseInt(this.exercise) && parseInt(this.exercise)>=parseInt(600)){
+    console.log('exerciseStat 4 working');
+    Brian.showexerciseStat(4);
+  }else if (parseInt(600)>parseInt(this.exercise) && parseInt(this.exercise)>=parseInt(400)){
+    console.log('exerciseStat 3 working');
+    Brian.showexerciseStat(3);
+  }else if (parseInt(400)>parseInt(this.exercise) && parseInt(this.exercise)>=parseInt(200)){
+    console.log('exerciseStat 2 working');
+    Brian.showexerciseStat(2);
+  }else if (parseInt(200)>parseInt(this.exercise) && parseInt(this.exercise)>=parseInt(0)){
+    console.log('exerciseStat 1 working');
+    Brian.showexerciseStat(1);
   }
 };
 
-Brian.hidePoo = function hidePoo() {
-  $('#poo1').css('visibility', 'hidden');
-  $('#poo2').css('visibility', 'hidden');
-  $('#poo3').css('visibility', 'hidden');
+Brian.showexerciseStat = function showexerciseStat(f) {
+  $('#exerciseStat').attr('src','./images/exerciseStat/dumbell'+f+'.png');
 };
-
-
-
 Brian.saveLastSeen = function saveLastSeen() {
   this.lastSeen = new Date().getTime();
 };

@@ -4,7 +4,42 @@ body {
   color: black;
   background: #fff8ef;
 }
+img{
+  user-drag: none;
+user-select: none;
+-moz-user-select: none;
+-webkit-user-drag: none;
+-webkit-user-select: none;
+-ms-user-select: none;
+}
+#foodstat {
+  position: relative;
+  top: -10px;
+  left: -150px;
+  display: inline;
+  size: 130%;
+}
+#exercisestat{
+  position: relative;
+  top: -55px;
+  left: 0px;
+  display: inline;
+  size: 130%;
 
+}
+.incubating{
+  border-radius: 10px;
+}
+
+.housing{
+width: 300px;
+background-color: grey;
+margin: 0 auto;
+text-align: center;
+vertical-align: middle;
+padding: 15px;
+border-radius: 15px;
+}
 .comments{
   list-style: none;
   width: 400px;
@@ -15,27 +50,35 @@ body {
 body{
   background-color: #fff8ef;
 }
+.avatars{
+  position: absolute;
+  top: -200px;
+
+}
 
 #poo1{
   position: relative;
-  top: -100px;
-  left: -20px;
-  z-index: 1;
-  visibility: hidden;
-}
-#poo2{
-  position: relative;
-  top: -80px;
-  left: -10px;
-  z-index: 1;
-  visibility: hidden;
-}
-#poo3{
-  position: relative;
-  top: -90px;
+  top: -250px;
   left: 10px;
   z-index: 1;
   visibility: hidden;
+  display: inline;
+}
+#poo2{
+  position: relative;
+  top: -220px;
+  left: 25px;
+  z-index: 1;
+  visibility: hidden;
+    display: inline;
+}
+#poo3{
+  position: relative;
+  top: -220px;
+  left: 50px;
+  z-index: 1;
+  visibility: hidden;
+    display: inline;
 }
 .avatar{
     z-index: 2;
@@ -46,12 +89,18 @@ body{
   height: 256px;
   width: 256px;
   background-color: none;
-  background-image: url('../images/cartoon_natural_landscape_vector_278572.jpg');
-  background-size: cover;
+  /*background-image: url('../images/cartoon_natural_landscape_vector_278572.jpg');*/
+  background-image: url('../gifs/chick/eggincubating2.gif');
+  background-size: 256px 256px;
   margin: 0 auto;
   text-align: center;
   vertical-align: middle;
   border: 1px solid black;
+  border-radius: 10px;
+  box-shadow: inset 1px -1px 20px -1px #000000;
+-webkit-box-shadow: inset 1px -1px 20px -1px #000000;
+-moz-box-shadow: inset 1px -1px 20px -1px #000000;
+-o-box-shadow: inset 1px -1px 20px -1px #000000;
 
 }
 /*

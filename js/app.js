@@ -61,15 +61,17 @@ Brian.start = function start() {
 
   Brian.hatch = function() {
 
-    if (parseInt(this.ageInSeconds())<(100)){
+    if (parseInt(this.conceptionTimeInSeconds())>(5)){
+      console.log('this.conceptionTimeInSeconds()');
       this.$screen = $('.screen');
-      this.$screen.html('<img class="avatar" src="./gifs/chick/eggincubating2.gif" alt="" height = "256" width = "256">');
+      this.$avatar = $('.avatar');
+      Brian.hidePoo();
+      this.$screen.css('background-image', '../images/cartoon_natural_landscape_vector_278572.jpg');
     } else {
-      this.$screen = $('.screen');
-      this.$screen.html('<img class="avatar" src="./gifs/chick/idle3.gif" alt="" height = "200" width = "200">');
+      this.$incubating.attr('');
+      this.$avatar.attr('src','./gifs/chick/idle3.gif');
     }
   };
-
 
   // var $loveForm = $('.loveForm');
   // var $textArea = $(':textArea');
@@ -93,6 +95,15 @@ Brian.start = function start() {
 };
 
 Brian.newGame = function(){
+  this.newAttributes();
+  this.saveLastSeen();
+  this.save();
+  Brian.valuePush();
+  Brian.hatch();
+  Brian.hidePoo();
+};
+
+Brian.newAttributes= function newAttributes(){
   this.interval  = 1000;
   this.food      = 1000;
   this.exercise  = 1000;
@@ -100,11 +111,9 @@ Brian.newGame = function(){
   this.clean     = 40;
   this.sleep     = 0;
   this.hatchTime = new Date().getTime();
-  this.saveLastSeen();
-  this.save();
-  Brian.valuePush();
-  Brian.hatch();
+  this.conceptionTime = new Date().getTime();
 };
+
 
 Brian.feed = function(){
   if (this.food >= 1000) {
@@ -170,7 +179,7 @@ Brian.wash = function(){
     console.log(this.clean);
   }
   Brian.valuePush();
-  Brian.invisible();
+  Brian.hidePoo();
 };
 
 Brian.luv = function(){
@@ -203,32 +212,55 @@ Brian.live = function live() {
   this.loveDecay();
   this.deathCheck();
   this.hatch();
+  // this.foodStat();
   // Save every interval...
   this.save();
 };
 
 Brian.cleanMess = function cleanMess() {
-  if (parseInt(30)>parseInt(this.clean)>parseInt(20)){
-    Brian.visible(1);
-  }else if (parseInt(20)>parseInt(this.clean)>parseInt(10)){
-    Brian.visible(2);
+  if (parseInt(30)>=parseInt(this.clean) && parseInt(this.clean)>=parseInt(20)){
+    Brian.showPoo(1);
+  }else if (parseInt(20)>parseInt(this.clean) && parseInt(this.clean)>=parseInt(10)){
+    Brian.showPoo(2);
   } else if (parseInt(this.clean)<parseInt(10)){
-    Brian.visible(3);
+    Brian.showPoo(3);
   }
 };
 
-Brian.visible = function visible(p) {
-  for (var x = 1; x < p; x++) {
-    $('#poo'+x).css('visibility', 'visible');
+Brian.foodStat = function foodStat() {
+  if (parseInt(1000)>=parseInt(this.food) && parseInt(this.food)>=parseInt(800)){
+    console.log('foodstat working');
+    Brian.showFoodStat(5);
+  }else if (parseInt(800)>parseInt(this.food) && parseInt(this.food)>=parseInt(600)){
+    Brian.showFoodStat(4);
+  }else if (parseInt(600)>parseInt(this.food) && parseInt(this.food)>=parseInt(400)){
+    Brian.showFoodStat(3);
+  }else if (parseInt(400)>parseInt(this.food) && parseInt(this.food)>=parseInt(200)){
+    Brian.showFoodStat(2);
+  }else if (parseInt(200)>parseInt(this.food) && parseInt(this.food)>=parseInt(0)){
+    Brian.showFoodStat(1);
   }
-
 };
-Brian.invisible = function invisible() {
-  for (var x = 1; x < 3; x++) {
-    return $('#poo'+x).css('visibility', 'invisible');
+
+Brian.showFoodStat = function showFoodStat(f) {
+  for (var x = 0; x < f; x++) {
+    $('#foodstat'+(x+1)).css('visibility', 'visible');
   }
-
 };
+
+Brian.showPoo = function showPoo(p) {
+  for (var x = 0; x < p; x++) {
+    $('#poo'+(x+1)).css('visibility', 'visible');
+  }
+};
+
+Brian.hidePoo = function hidePoo() {
+  $('#poo1').css('visibility', 'hidden');
+  $('#poo2').css('visibility', 'hidden');
+  $('#poo3').css('visibility', 'hidden');
+};
+
+
 
 Brian.saveLastSeen = function saveLastSeen() {
   this.lastSeen = new Date().getTime();
@@ -286,6 +318,11 @@ Brian.cleanDecay = function() {
 Brian.ageInSeconds = function ageInSeconds(){
   var differenceBetweenHatchTimeAndNow = new Date().getTime() - this.hatchTime;
   return Math.floor(differenceBetweenHatchTimeAndNow/this.interval);
+};
+
+Brian.conceptionTimeInSeconds = function conceptionTimeInSeconds(){
+  var differenceBetweenConceptionTimeAndNow = new Date().getTime() - this.conceptionTime;
+  return Math.floor(differenceBetweenConceptionTimeAndNow/this.interval);
 };
 
 Brian.displayAge = function displayAge() {

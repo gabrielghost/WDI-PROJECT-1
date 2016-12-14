@@ -2,23 +2,25 @@ var Brian = Brian || {};
 
 Brian.start = function start() {
   $( 'button' ).on( 'click', function(e) {
-    var buttonPress = e.target.innerHTML;
+    console.log('button clicked');
+    var buttonPress = e.target.id;
     switch(buttonPress) {
-      case 'feed':
+      case 'buttonFeed':
         console.log('feed');
         Brian.feed();
         Brian.foodStat();
         break;
-      case 'exercise':
+      case 'buttonExercise':
         Brian.train();
         Brian.exerciseStat();
         console.log('exercise');
         break;
-      case 'clean':
+      case 'buttonClean':
         console.log('clean');
         Brian.wash();
         break;
       case 'restart':
+        console.log('restart clicked');
         var restartAlert = confirm('are you sure you want to abort your wonderful chick and just like a phoenix spawn another?');
         if (restartAlert === true){
           console.log('restart');
@@ -37,10 +39,13 @@ Brian.start = function start() {
     };
     if(this.$loveFormEntry.text.length>140){
       this.$ol = $('.comments');
+      this.userinput = localStorage.userinput;
       this.$loveFormEntry = '<li>'+new Date()+'<br>'+$('textarea').val()+'<li>';
       Brian.luv();
       this.$ol.prepend(this.$loveFormEntry);
+      this.userinput.prepend(this.$loveFormEntry);
       $('textarea').val('');
+      $('characterCounter').val('-140');
     }
   });
 
@@ -56,21 +61,42 @@ Brian.start = function start() {
   });
 
 
+  Brian.hatchExecuted = false;
   //hatching function
   //display no attributes for length of time hatching
   // display incubating egg gif on screen
   // have incubation last between 1-15 minutes (seconds)
 
   Brian.hatch = function() {
-
     if (parseInt(this.conceptionTimeInSeconds())>(5)){
-      console.log(this.conceptionTimeInSeconds());
+      // if (!Brian.hatchExecuted) {
+      //   Brian.hatchExecuted = true;
+      console.log('pump');
       this.$screen = $('.screen');
       this.$screen.removeClass('start');
-      // this.$screen.css('background-image', '../images/cartoon_natural_landscape_vector_278572.jpg');
       this.$screen.addClass('living');
-      this.$avatar = $('.avatar');
-      this.$avatar.attr('src','./gifs/chick/idle3.gif');
+      // this.newAttributes();
+      Brian.animate(1);
+    }
+
+  };
+
+  Brian.animate = function animate(x){
+    this.$avatar = $('.avatar');
+    this.$idle = this.$avatar.attr('src','./gifs/chick/idle3.gif');
+    this.$revert = function(){
+      this.$screen.removeAttr('id', 'cleanGif');
+      this.$idle;
+    };
+    if (x===1){
+      this.$idle;
+    } if (x===2){
+      this.$avatar.attr('src','./gifs/chick/windsurfing.gif');
+      setTimeout(this.$idle, 3000);
+    }if (x===3){
+      this.$avatar.attr('src','');
+      this.$screen.attr('id', 'cleanGif');
+      setTimeout(this.$revert(), 3000);
     }
   };
 
@@ -96,9 +122,10 @@ Brian.start = function start() {
 };
 
 Brian.newGame = function(){
+  this.$screen = $('.screen');
+  this.$avatar = $('.avatar');
   Brian.hidePoo();
-  this.$screen.removeClass('living');
-  this.$screen.removeClass('death');
+  Brian.hatchExecuted = false;
   this.$screen.addClass('start');
   this.$avatar.attr('src','');
   this.newAttributes();
@@ -106,11 +133,14 @@ Brian.newGame = function(){
   this.save();
   Brian.valuePush();
   Brian.hatch();
-  Brian.hidePoo();
+  this.displayAge();
+  Brian.heartBeat = setInterval(this.live.bind(this), this.interval);
+  this.$screen.removeClass('living');
+  this.$screen.removeClass('death');
 };
 
 Brian.newAttributes= function newAttributes(){
-  this.interval  = 1000;
+  this.interval  = 5000;
   this.food      = 1000;
   this.exercise  = 1000;
   this.love      = 1000;
@@ -140,13 +170,15 @@ Brian.deathCheck = function(){
   if (((parseInt(this.food)||parseInt(this.love)||parseInt(this.exercise))<50)||(parseInt(this.clean) < 10)){
     console.log('deathCheck qualified1');
     if (Math.random()>0.98){
+      clearInterval(Brian.heartBeat);
+      this.$avatar.attr('src','');
       var deathAudio = new Audio('./audio/8-bit Chopin Funeral March.mp3');
       deathAudio.play();
       // var $screen = $('.screen');
       // $screen.html('<img class="avatar" src="./gifs/chick_death.gif" alt="" height = "200" width = "200">');
       $('.screen, .living').toggleClass('living').toggleClass('death');
       var past = confirm('brian has died would you like to restart?');
-      clearInterval(Brian.heartBeat);
+
       setTimeout(function() {
         if (past !== true){
           Brian.newGame();
@@ -155,7 +187,7 @@ Brian.deathCheck = function(){
           Brian.newGame();
         }
         deathAudio.pause();
-      }, 1000);
+      }, 30000);
 
     }
   }
@@ -172,11 +204,13 @@ Brian.train = function(){
     this.food =Math.floor(this.food*(Math.random()/6+0.8));
     this.love =Math.floor(this.love*(Math.random()/6+0.8));
     this.clean = Math.floor(this.clean*(Math.random()/6+0.8));
+    Brian.animate(2);
   } else {
     this.exercise =Math.floor(this.exercise+100);
     this.food =Math.floor(this.food*(Math.random()/6+0.8));
     this.love =Math.floor(this.love*(Math.random()/6+0.8));
     this.clean = Math.floor(this.clean*(Math.random()/4+0.7));
+    Brian.animate(2);
   }
   Brian.valuePush();
 };
@@ -191,6 +225,7 @@ Brian.wash = function(){
   }
   Brian.valuePush();
   Brian.hidePoo();
+  Brian.animate(3);
 };
 
 Brian.luv = function(){
@@ -222,6 +257,7 @@ Brian.live = function live() {
   this.cleanMess();
   this.loveDecay();
   this.deathCheck();
+  this.loveStat();
   this.hatch();
   this.foodStat();
   this.exerciseStat();
@@ -230,11 +266,12 @@ Brian.live = function live() {
 };
 
 Brian.cleanMess = function cleanMess() {
-  if (parseInt(30)>=parseInt(this.clean) && parseInt(this.clean)>=parseInt(20)){
+  var $screen = $('.screen');
+  if (parseInt(30)>=parseInt(this.clean) && parseInt(this.clean)>=parseInt(20) && (!$screen.hasClass('start'))){
     Brian.showPoo(1);
-  }else if (parseInt(20)>parseInt(this.clean) && parseInt(this.clean)>=parseInt(10)){
+  }else if (parseInt(20)>parseInt(this.clean) && parseInt(this.clean)>=parseInt(10)&&(!$screen.hasClass('start'))){
     Brian.showPoo(2);
-  } else if (parseInt(this.clean)<parseInt(10)){
+  } else if (parseInt(this.clean)<parseInt(10)&& (!$screen.hasClass('start'))){
     Brian.showPoo(3);
   }
 };
@@ -297,6 +334,28 @@ Brian.showexerciseStat = function showexerciseStat(f) {
 };
 Brian.saveLastSeen = function saveLastSeen() {
   this.lastSeen = new Date().getTime();
+};
+Brian.loveStat = function loveStat() {
+  if (parseInt(1000)>=parseInt(this.love) && parseInt(this.love)>=parseInt(800)){
+    console.log('loveStat 5 working');
+    Brian.showloveStat(5);
+  }else if (parseInt(800)>parseInt(this.love) && parseInt(this.love)>=parseInt(600)){
+    console.log('loveStat 4 working');
+    Brian.showloveStat(4);
+  }else if (parseInt(600)>parseInt(this.love) && parseInt(this.love)>=parseInt(400)){
+    console.log('loveStat 3 working');
+    Brian.showloveStat(3);
+  }else if (parseInt(400)>parseInt(this.love) && parseInt(this.love)>=parseInt(200)){
+    console.log('loveStat 2 working');
+    Brian.showloveStat(2);
+  }else if (parseInt(200)>parseInt(this.love) && parseInt(this.love)>=parseInt(0)){
+    console.log('loveStat 1 working');
+    Brian.showloveStat(1);
+  }
+};
+
+Brian.showloveStat = function showloveStat(f) {
+  $('#loveStat').attr('src','./images/loveStat/love'+f+'.png');
 };
 
 Brian.foodDecay = function() {

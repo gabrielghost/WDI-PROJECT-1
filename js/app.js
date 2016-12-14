@@ -118,7 +118,6 @@ Brian.start = function start() {
   // Show initial age
   this.displayAge();
 
-  Brian.heartBeat = setInterval(this.live.bind(this), this.interval);
 };
 
 Brian.newGame = function(){
@@ -134,7 +133,9 @@ Brian.newGame = function(){
   Brian.valuePush();
   Brian.hatch();
   this.displayAge();
-  Brian.heartBeat = setInterval(this.live.bind(this), this.interval);
+  Brian.heartBeat = setInterval(function() {
+    Brian.live.call(Brian);
+  }, this.interval);
   this.$screen.removeClass('living');
   this.$screen.removeClass('death');
 };
@@ -171,15 +172,16 @@ Brian.deathCheck = function(){
     console.log('deathCheck qualified1');
     if (Math.random()>0.98){
       clearInterval(Brian.heartBeat);
-      this.$avatar.attr('src','');
+      $('img.avatar').attr('src', '#');
       var deathAudio = new Audio('./audio/8-bit Chopin Funeral March.mp3');
       deathAudio.play();
       // var $screen = $('.screen');
       // $screen.html('<img class="avatar" src="./gifs/chick_death.gif" alt="" height = "200" width = "200">');
       $('.screen, .living').toggleClass('living').toggleClass('death');
-      var past = confirm('brian has died would you like to restart?');
+
 
       setTimeout(function() {
+        var past = confirm('brian has died would you like to restart?');
         if (past !== true){
           Brian.newGame();
         }
@@ -187,7 +189,7 @@ Brian.deathCheck = function(){
           Brian.newGame();
         }
         deathAudio.pause();
-      }, 30000);
+      }, 5000);
 
     }
   }

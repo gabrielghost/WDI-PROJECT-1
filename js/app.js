@@ -37,7 +37,7 @@ Brian.start = function start() {
       created_at: new Date(),
       text: $('textarea').val()
     };
-    if(this.$loveFormEntry.text.length>140){
+    if(parseInt(this.$loveFormEntry.text.length)>140){
       this.$ol = $('.comments');
       this.userinput = localStorage.userinput;
       this.$loveFormEntry = '<li>'+new Date()+'<br>'+$('textarea').val()+'<li>';
@@ -68,7 +68,7 @@ Brian.start = function start() {
   // have incubation last between 1-15 minutes (seconds)
 
   Brian.hatch = function() {
-    if (parseInt(this.conceptionTimeInSeconds())>(5)){
+    if (parseInt(this.conceptionTimeInSeconds())>(10)){
       // if (!Brian.hatchExecuted) {
       //   Brian.hatchExecuted = true;
       console.log('pump');
@@ -94,9 +94,9 @@ Brian.start = function start() {
       this.$avatar.attr('src','./gifs/chick/windsurfing.gif');
       setTimeout(this.$idle, 3000);
     }if (x===3){
-      this.$avatar.attr('src','');
-      this.$screen.attr('id', 'cleanGif');
-      setTimeout(this.$revert(), 3000);
+      // this.$avatar.attr('src','');
+      // this.$screen.attr('id', 'cleanGif');
+      // setTimeout(this.$revert(), 3000);
     }
   };
 
@@ -141,7 +141,7 @@ Brian.newGame = function(){
 };
 
 Brian.newAttributes= function newAttributes(){
-  this.interval  = 5000;
+  this.interval  = 4000;
   this.food      = 1000;
   this.exercise  = 1000;
   this.love      = 1000;

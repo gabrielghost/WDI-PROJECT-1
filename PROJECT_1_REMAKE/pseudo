@@ -1,0 +1,36 @@
+//check for existing game. If game exists, retrieve that from localstorage, if not:
+//define initial attributes
+  - hatch time
+  - conception time
+  - incubation length
+  - food
+  - fitness
+  - love
+  - cleanliness
+//define decay rates as a percentage and level of randomness
+//define the engine which pushes those attributes to:
+//memory
+//GUI
+// - stats
+- 5 food
+- 5 fitness
+- 3 poos
+// - visual/screen
+- bathing
+- feeding
+- fitness
+- love
+- incubating
+- feeding
+- death
+
+A variable defines what visual is pushed every time the interval runs. how to force that push as soon as the button is clicked? either make actions que into an array that are rendered one after each other or
+
+
+//User input:
+//set up event listeners
+//build love input feedback system
+//define user input rates
+//define side effects
+//death function
+//

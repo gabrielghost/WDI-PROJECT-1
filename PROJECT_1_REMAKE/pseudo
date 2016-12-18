@@ -1,3 +1,12 @@
+// generate all on-screen elements when page loads
+// - buttons
+//    - food
+//    - exercise
+//    - clean
+//    - love
+// - love input
+// - reset button
+// - casing
 //check for existing game. If game exists, retrieve that from localstorage, if not:
 //define initial attributes
   - hatch time

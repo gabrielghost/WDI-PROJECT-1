@@ -1,0 +1,54 @@
+body{
+  background-color: #fff8ef;
+}
+.screen{
+  background-image: url('../images/screen_background.jpg');
+  position: relative;
+  top: 15px;
+  height: 256px;
+  width: 256px;
+  background-color: none;
+  background-size: 256px 256px;
+  margin: 0 auto;
+  text-align: center;
+  vertical-align: middle;
+  border: 1px solid black;
+  box-shadow: inset 1px -1px 20px -1px #000000;
+  -webkit-box-shadow: inset 1px -1px 20px -1px #000000;
+  -moz-box-shadow: inset 1px -1px 20px -1px #000000;
+  -o-box-shadow: inset 1px -1px 20px -1px #000000;
+}
+.housing{
+  display: absolute;
+  width: 400px;
+  height: 550px;
+  background: #ced7e8;
+  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #E0EAFC , #CFDEF3);
+  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #E0EAFC , #CFDEF3);
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  margin: 0 auto;
+  text-align: center;
+  vertical-align: middle;
+  padding: 15px;
+  border-radius: 15px;
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
+  border-left: 2px solid grey;
+  border-top: 2px solid grey;
+  -webkit-box-shadow: 3px 12px 54px -2px rgba(38,42,46,0.48);
+  -moz-box-shadow: 3px 12px 54px -2px rgba(38,42,46,0.48);
+  box-shadow: 3px 12px 54px -2px rgba(38,42,46,0.48);
+}
+.bevvel{
+  position: relative;
+  top: 0px;
+  width: 400px;
+  height: 330px;
+  background-color: grey;
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0px 0px 18px 0px rgba(50, 50, 50, 1);
+  -moz-box-shadow:    inset 0px 0px 18px 0px rgba(50, 50, 50, 1);
+  box-shadow:         inset 0px 0px 18px 0px rgba(50, 50, 50, 1);
+}
